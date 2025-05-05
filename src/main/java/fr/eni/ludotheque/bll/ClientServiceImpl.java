@@ -34,12 +34,12 @@ public class ClientServiceImpl implements ClientService{
 		BeanUtils.copyProperties(clientDto, client);
 		BeanUtils.copyProperties(clientDto, adresse);
 		client.setAdresse(adresse);
+		Client newClient = null;
 		try {
-			clientRepository.save(client);
+			newClient = clientRepository.save(client);
 		}catch(DataIntegrityViolationException ex) {
 			throw new EmailClientAlreadyExistException();
 		}
-		Client newClient = clientRepository.findById(client.getNoClient()).orElseThrow(()->new DataNotFound("Client", client.getNoClient()));
 
 		return newClient;
 	}
